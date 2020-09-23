@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+      <div>
+        <h1 id="display"></h1>
+        <div class="button-group">
+          <button class="button" id="weeks-button">Weeks</button>
+          <button class="button" id="days-button">Days</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      
+      // setting constants
+      const WEEKS = 'WEEKS';
+      const DAYS = 'DAYS';
+      let setting = WEEKS;
+      
+      // date
+      const countdownDate = new Date("Dec 25, 2020 12:00:00").getTime();
+      const getDays = (timeDiff) => Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      const getWeeks = (timeDiff) => Math.floor(getDays(timeDiff) / 7);
+      
+      // els
+      const display = document.querySelector('#display');
+      const weeksButton = document.querySelector('#weeks-button');
+      const daysButton = document.querySelector('#days-button');
+      
+      // utils
+      const displayText = (value) => display.innerHTML = value;
+      const formatCountdown = (setting) => { // format display to weeks or days
+        const now = new Date().getTime();
+        const timeDiff = countdownDate - now;
+        if (setting === WEEKS) return `${getWeeks(timeDiff)} weeks to bon time! 🎉`;
+        if (setting === DAYS) return `<wbr>${getDays(timeDiff)}</wbr> days to bon time! 🎉`;
+      };
+
+      weeksButton.addEventListener('click', () => {
+        setting = WEEKS;
+        displayText(formatCountdown(setting));
+      });
+
+      daysButton.addEventListener('click', () => {
+        setting = DAYS;
+        displayText(formatCountdown(setting));
+      });
+
+      setInterval(() => {
+        displayText(formatCountdown(setting));
+      }, 1000);
+    </script>
+</body>
+</html>
