@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Bon time countdown</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -16,14 +16,13 @@
       </div>
     </div>
     <script>
-      
-      // setting constants
+      // setting
       const WEEKS = 'WEEKS';
       const DAYS = 'DAYS';
-      let setting = WEEKS;
+      let setting = localStorage.getItem('setting') || WEEKS;
       
       // date
-      const countdownDate = new Date("Dec 25, 2020 12:00:00").getTime();
+      const countdownDate = new Date("Dec 25, 2020 00:00:00").getTime();
       const getDays = (timeDiff) => Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
       const getWeeks = (timeDiff) => Math.floor(getDays(timeDiff) / 7);
       
@@ -41,17 +40,29 @@
         if (setting === DAYS) return `<wbr>${getDays(timeDiff)}</wbr> days to bon time! 🎉`;
       };
 
+      const storeSetting = (setting) => {
+        localStorage.setItem('setting', setting);
+        return setting;
+      }
+
       weeksButton.addEventListener('click', () => {
         setting = WEEKS;
-        displayText(formatCountdown(setting));
+        displayText(formatCountdown(storeSetting(setting)));
       });
 
       daysButton.addEventListener('click', () => {
         setting = DAYS;
-        displayText(formatCountdown(setting));
+        displayText(formatCountdown(storeSetting(setting)));
       });
 
+      const showEls = () => {
+        display.style.transform = 'translateY(0)';
+        display.style.opacity = 1;
+        Array.from([weeksButton, daysButton]).forEach(el => el.style.opacity = 1);
+      } 
+
       setInterval(() => {
+        !display.textContent && showEls();
         displayText(formatCountdown(setting));
       }, 1000);
     </script>

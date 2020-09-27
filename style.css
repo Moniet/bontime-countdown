@@ -30,6 +30,13 @@ body, html {
   letter-spacing: 2px;
   font-size: min(10vw, 5rem);
   color: var(--header);
+  opacity: 0;
+  transform: translateY(-10%);
+  transition: all 1s ease;
+}
+
+.show {
+  opacity: 1;
 }
 
 @media (min-width: 320px) {
@@ -65,6 +72,8 @@ body, html {
   cursor: pointer;
   color: var(--button-color);
   min-height: 50px;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
 .button:active, .button:focus {
