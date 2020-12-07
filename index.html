@@ -34,8 +34,9 @@
       // utils
       const displayText = (value) => display.innerHTML = value;
       const formatCountdown = (setting) => { // format display to weeks or days
-        const now = new Date().getTime();
+        const now = new Date().getTime();        
         const timeDiff = countdownDate - now;
+        if (now >= countdownDate) return `Time for fuckering gifts! 🎉`;
         if (setting === WEEKS) return `${getWeeks(timeDiff)} weeks to bon time! 🎉`;
         if (setting === DAYS) return `<wbr>${getDays(timeDiff)}</wbr> days to bon time! 🎉`;
       };
