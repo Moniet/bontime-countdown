@@ -15,6 +15,7 @@
         </div>
       </div>
     </div>
+    <script src="./animation.js"></script>
     <script>
       // setting
       const WEEKS = 'WEEKS';
@@ -25,6 +26,8 @@
       const countdownDate = new Date("Dec 25, 2020 00:00:00").getTime();
       const getDays = (timeDiff) => Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
       const getWeeks = (timeDiff) => Math.round(getDays(timeDiff) / 7).toFixed(1);
+      const now = new Date().getTime();        
+      const timeDiff = countdownDate - now;
       
       // els
       const display = document.querySelector('#display');
@@ -34,11 +37,14 @@
       // utils
       const displayText = (value) => display.innerHTML = value;
       const formatCountdown = (setting) => { // format display to weeks or days
-        const now = new Date().getTime();        
-        const timeDiff = countdownDate - now;
-        if (now >= countdownDate) return `Time for fuckering gifts! 🎉`;
-        if (setting === WEEKS) return `${getWeeks(timeDiff)} weeks to bon time! 🎉`;
-        if (setting === DAYS) return `<wbr>${getDays(timeDiff)}</wbr> days to bon time! 🎉`;
+        if (now >= countdownDate) return `Epic Failllllll !!`;
+
+        const weeksRemaining = getWeeks(timeDiff);
+        const weekOrWeeks = weeksRemaining == 1 ? 'week' : 'weeks';
+        const daysRemaining = getDays(timeDiff);
+        const dayOrDays = daysRemaining == 1 ? 'day' : 'days'
+        if (setting === WEEKS) return `${weeksRemaining} ${weekOrWeeks} to bon time! 🎉`;
+        if (setting === DAYS) return `<wbr>${getDays(timeDiff)}</wbr> ${dayOrDays} to bon time! 🎉`;
       };
 
       const storeSetting = (setting) => {
@@ -58,14 +64,26 @@
 
       const showEls = () => {
         display.style.transform = 'translateY(0)';
-        display.style.opacity = 1;
-        Array.from([weeksButton, daysButton]).forEach(el => el.style.opacity = 1);
-      } 
 
-      setInterval(() => {
+        if (now >= countdownDate) {
+          display.style.opacity = 1;
+          Array.from([weeksButton, daysButton])
+            .forEach((el) => el.style.display = 'none');
+
+          generateEmojis();
+        } else {
+          Array.from([weeksButton, daysButton, display]).forEach(el => el.style.opacity = 1);
+        }
+      }
+
+      const printCountdown = () => {
         !display.textContent && showEls();
         displayText(formatCountdown(setting));
-      }, 1000);
+      }
+
+      setInterval(printCountdown, 1000 * 60 * 60);
+
+      document.addEventListener('DOMContentLoaded', printCountdown);
     </script>
 </body>
 </html>
