@@ -11,7 +11,7 @@ const emojiEl = () => {
   div.style.setProperty('--delay', `${getDelay()}s`);
   div.style.setProperty('--scale', `${getScale()}`);
   div.classList.add('animate-emoji');
-  div.textContent = `😭`
+  div.textContent = `🎉`
   return div;
 };
 
